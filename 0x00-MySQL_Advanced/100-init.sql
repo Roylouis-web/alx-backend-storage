@@ -33,10 +33,10 @@ SET @user_bob = LAST_INSERT_ID();
 INSERT INTO `users` (`name`) VALUES ("Jeanne");
 SET @user_jeanne = LAST_INSERT_ID();
 
-INSERT INTO `projects` (`name`) VALUES ("C is fun");
+INSERT INTO `projects` (`name`, `weight`) VALUES ("C is fun", 1);
 SET @project_c = LAST_INSERT_ID();
 
-INSERT INTO `projects` (`name`) VALUES ("Python is cool");
+INSERT INTO `projects` (`name`, `weight`) VALUES ("Python is cool", 2);
 SET @project_py = LAST_INSERT_ID();
 
 INSERT INTO `corrections` (`user_id`, `project_id`, `score`) VALUES (@user_bob, @project_c, 80);

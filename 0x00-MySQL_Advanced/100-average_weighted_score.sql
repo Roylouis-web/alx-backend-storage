@@ -6,7 +6,7 @@ DELIMITER $$ ;
 
 CREATE PROCEDURE ComputeAverageWeightedScoreForUser(IN user_id INT)
 BEGIN
-	DECLARE weighted_average INT;
+	DECLARE weighted_average FLOAT;
 
 	SELECT (SUM(score * weight) / SUM(weight))
 	INTO weighted_average
