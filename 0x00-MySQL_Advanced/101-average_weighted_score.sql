@@ -3,17 +3,31 @@
 
 DELIMITER $$ ;
 
-DROP PROCEDURE IF EXISTS ComputeAverageWeightedScoreForUsers()
+CREATE PROCEDURE ComputeAverageWeightedScoreForUsers()
 BEGIN
-	UPDATE users AS U,
-	(SELECT U.id, SUM(score * weight) / SUM(weight)
-	  AS w_avg FROM users AS U
-	  JOIN corrections AS C ON U.id = C.user_id
-	  JOIN projects AS P ON C.project_id = P.id
-	GROUP BY U.id)
-	AS WA
-	SET U.average_score = WA.w_avg
-	WHERE U.id = WA.id
+	DECLARE done INT DEFAULT 0;
+	DECLARE weighted_average FLOAT;
+	DECLARE user_id INT;
+	DECLARE cur CURSOR FOR SELECT users.id,
+	SUM(score * weight) / SUM(weight) FROM
+	users INNER JOIN corrections ON
+	corrections.user_id = users.id
+	INNER JOIN projects
+	ON projects.id = corrections.project_id
+	GROUP BY users.id;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET
+	done = 1;
+	OPEN cur;
+	label: LOOP
+	FETCH cur INTO user_id, weighted_average;
+	UPDATE users
+	SET average_score = weighted_average
+	WHERE users.id = user_id;
+	IF done = 1 THEN 
+		LEAVE label;
+	END IF;
+	END LOOP;
+	CLOSE cur;
 END $$
 
 DELIMITER ; $$
