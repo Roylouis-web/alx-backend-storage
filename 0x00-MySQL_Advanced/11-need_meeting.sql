@@ -5,5 +5,4 @@
 
 CREATE VIEW need_meeting AS
 SELECT name FROM students
-WHERE (score < 80 and last_meeting IS NULL)
-OR (DATE_FORMAT(last_meeting, "%m") - DATE_FORMAT(last_meeting, "%m")) > 1;
+WHERE score < 80 AND (last_meeting IS NULL OR (DATE_FORMAT(last_meeting, "%m") - DATE_FORMAT(last_meeting, "%m")) > 1);
