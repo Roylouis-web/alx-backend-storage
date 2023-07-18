@@ -20,6 +20,6 @@ for method in methods:
 print('{} logs'.format(total))
 print('Methods:')
 for method in methods:
-    print('    method {}: {}'.format(method, dic[method]))
+    print('\tmethod {}: {}'.format(method, dic[method]))
 
 print('{} status check'.format(get_and_path))

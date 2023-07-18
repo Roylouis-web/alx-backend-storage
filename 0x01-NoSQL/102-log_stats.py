@@ -21,11 +21,11 @@ for method in methods:
 print('{} logs'.format(total))
 print('Methods:')
 for method in methods:
-    print('    method {}: {}'.format(method, method_dict[method]))
+    print('\tmethod {}: {}'.format(method, method_dict[method]))
 
 print('{} status check'.format(get_and_path))
 
 print('IPs:')
 for res in nginx_collection.aggregate(
         [{'$sortByCount': '$ip'}, {'$limit': 10}]):
-    print("    {}: {}".format(res['_id'], res['count']))
+    print("\t{}: {}".format(res['_id'], res['count']))
