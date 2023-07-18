@@ -19,12 +19,11 @@ if __name__ == "__main__":
     for j_student in j_students:
         insert_school(students_collection, **j_student)
 
-'''
-   students = list_all(students_collection)
+    students = list_all(students_collection)
+
     for student in students:
         print("[{}] {} - {}".format(student.get('_id'), student.get('name'), student.get('topics')))
 
     top_students = top_students(students_collection)
     for student in top_students:
         print("[{}] {} => {}".format(student.get('_id'), student.get('name'), student.get('averageScore')))
-'''
