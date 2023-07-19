@@ -41,5 +41,8 @@ def count_url_access(method: Callable) -> Callable:
 
 @count_url_access
 def get_page(url: str) -> str:
+    '''
+        Returns HTML content from a url
+    '''
     res = requests.get(url)
     return res.text
