@@ -62,4 +62,4 @@ class Cache(object):
             parametrizes Cache.get
         """
 
-        return int(self._redis.get(key))
+        return int(self._redis.get(key).decode('utf-8'))
