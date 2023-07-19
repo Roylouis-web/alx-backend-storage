@@ -20,7 +20,7 @@ def count_url_access(method: Callable) -> Callable:
     '''
 
     @wraps(method)
-    def wrapper(url):
+    def wrapper(url: str) -> str:
         ''' Wrapper decorator '''
 
         cached_key = 'cached:' + url
