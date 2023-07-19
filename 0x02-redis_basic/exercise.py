@@ -48,7 +48,7 @@ class Cache(object):
             value = fn(value)
         return value
 
-    def get_str(key: str) -> str:
+    def get_str(self, key: str) -> str:
         """
             A method that automatically
             parametrizes Cache.get
@@ -56,7 +56,7 @@ class Cache(object):
 
         return self._redis(key).decode('utf-8')
 
-    def get_int(key: str) -> int:
+    def get_int(self, key: str) -> int:
         """
             A method that automaticallu
             parametrizes Cache.get
