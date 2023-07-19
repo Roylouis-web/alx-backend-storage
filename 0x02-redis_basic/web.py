@@ -26,7 +26,7 @@ def count_url_access(method: Callable) -> Callable:
         cached_key = 'cached:' + url
         cached_data = store.get(cached_key)
 
-        if cached_dat:
+        if cached_data:
             return cached_data.decode('utf-8')
 
         count_key = 'count:' + url
@@ -43,3 +43,6 @@ def count_url_access(method: Callable) -> Callable:
 def get_page(url: str) -> str:
     res = requests.get(url)
     return res.text
+
+
+print(get_page('https://roylouis-merchandise.netlify.app'))
