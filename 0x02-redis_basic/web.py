@@ -7,20 +7,19 @@
 import requests
 import redis
 from functools import wraps
-from typing import Callable
 
 
 store = redis.Redis()
 
 
-def count_url_access(method: Callable) -> Callable:
+def count_url_access(method):
     '''
         Decorator to count the number of times
         an https request was made to a url
     '''
 
     @wraps(method)
-    def wrapper(url: str) -> None:
+    def wrapper(url):
         ''' Wrapper decorator '''
 
         cached_key = 'cached:' + url
