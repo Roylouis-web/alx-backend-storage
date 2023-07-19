@@ -43,6 +43,3 @@ def count_url_access(method: Callable) -> Callable:
 def get_page(url: str) -> str:
     res = requests.get(url)
     return res.text
-
-
-print(get_page('https://roylouis-merchandise.netlify.app'))
