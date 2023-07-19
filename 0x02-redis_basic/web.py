@@ -20,7 +20,7 @@ def count_url_access(method: Callable) -> Callable:
     '''
 
     @wraps(method)
-    def wrapper(url: str) -> str:
+    def wrapper(url: str) -> None:
         ''' Wrapper decorator '''
 
         cached_key = 'cached:' + url
@@ -35,7 +35,6 @@ def count_url_access(method: Callable) -> Callable:
         store.incr(count_key)
         store.set(cached_key, html)
         store.expire(cached_key, 10)
-        return html
     return wrapper
 
 
