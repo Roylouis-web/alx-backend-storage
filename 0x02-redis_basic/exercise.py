@@ -28,6 +28,52 @@ def count_calls(method: Callable) -> Callable:
     return wrapper
 
 
+def call_history(method: Callable) -> Callable:
+    """
+        Stores the history of inputs and outputs
+        for a particular function
+    """
+
+    key = method.__qualname__
+
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """ wraps the decorated function """
+
+        _input = str(args)
+        self._redis.rpush(key + ':inputs', _input)
+        output = method(self, *args, **kwargs)
+        self._redis.rpush(key + ':outputs', output)
+        return output
+    return wrapper
+
+
+def replay(fn: Callable):
+    """
+        displays the history of calls of a particular
+        function
+    """
+
+    r = redis.Redis()
+    f_n = fn.__qualname__
+    c = int(r.get(f_n))
+
+    print("{} was called {} times:".format(f_n, c))
+    inputs = r.lrange("{}:inputs".format(f_n), 0, -1)
+    outputs = r.lrange("{}:outputs".format(f_n), 0, -1)
+
+    for inp, outp in zip(inputs, outputs):
+        try:
+            inp = inp.decode('utf-8')
+        except Exception:
+            inp = ''
+        try:
+            outp = outp.decode('utf-8')
+        except Exception:
+            outp = ''
+        print('{}(*{}) -> {}'.format(f_n, inp, outp))
+
+
 class Cache(object):
     """
         A class called Cache that stores an instance
@@ -43,6 +89,7 @@ class Cache(object):
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @call_history
     @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
