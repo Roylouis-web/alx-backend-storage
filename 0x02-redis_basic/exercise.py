@@ -34,8 +34,8 @@ class Cache(object):
         self._redis.set(random_key, data)
         return random_key
 
-    def get(key: str, fn: Optional[Callable] = None) ->
-    Union[bytes, str, int, float]:
+    def get(self, key: str,
+            fn: Optional[Callable] = None) -> Union[bytes, str, int, float]:
 
         """
             A method that takes a key string as
@@ -63,9 +63,4 @@ class Cache(object):
         """
 
         value = self._redis.get(key)
-
-        try:
-            value = int(value.decode('utf-8'))
-        except Exception:
-            value = 0
-        return value
+        return int(value.decode('utf-8'))
